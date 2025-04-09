@@ -16,26 +16,21 @@ en la lista original, sino lo ignoramos.
 
 def longest_increasing_subsequences(V):
     n = len(V)
-    opt = [None for _ in range(n)]
-    
-    opt[0] = 1
+    opt = [1 for _ in range(n)]
+    anterior = [-1 for _ in range(n)]
     ultimo = 0
+    
     for i in range(1, n):
-        if V[i-1] < V[i]:
-            opt[i] = opt[i-1] + 1
-            ultimo = i
-        else:
-            opt[i] = opt[i-1]
+        for j in range(i):
+            if V[j] < V[i] and opt[j] + 1 > opt[i]:
+                opt[i] = opt[j] + 1
+                anterior[i] = j
+                ultimo = i
     
     res = []
-    i = ultimo
-    while i > 0:
-        if opt[i] > opt[i-1]:
-           res.append(V[i])
-        i -= 1
-    
-    if V[0] < V[1]:
-        res.append(V[0])
+    while ultimo != -1:
+        res.append(V[ultimo])
+        ultimo = anterior[ultimo]
     
     res.reverse()
     return res, opt
@@ -44,5 +39,3 @@ print(longest_increasing_subsequences([2, 1, 4, 2, 3, 9, 4, 6, 5, 4, 7]))
 print(longest_increasing_subsequences([10,9,2,5,3,7,101,18]))
 print(longest_increasing_subsequences([0,1,0,3,2,3]))
 print(longest_increasing_subsequences([7,7,7,7,7,7,7]))
-# [2, 1, 4, 2, 3, 9, 4, 6, 5, 4, 7]
-# [1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 6]
