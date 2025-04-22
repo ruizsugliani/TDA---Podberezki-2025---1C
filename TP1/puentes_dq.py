@@ -1,43 +1,12 @@
 import sys
-
-BARRIO_NORTE = 0
-BARRIO_SUR = 1
-
-def obtener_orden_barrios(file):
-    with open(file) as f:
-        orden_barrios_norte = {}
-        i = 0
-        for linea in f:
-            if linea in ['\n', '\r\n']:
-                break
-            orden_barrios_norte[linea.strip()] = i
-            i += 1
-        
-        orden_barrios_sur = {}
-        j = 0
-        for linea in f:
-            if linea in ['\n', '\r\n']:
-                break
-            orden_barrios_sur[linea.strip()] = j
-            j += 1
-    
-    return orden_barrios_norte, orden_barrios_sur
-
-def obtener_propuestas(file, orden_barrios_norte, orden_barrios_sur):
-    propuestas = []
-    with open(file) as f:
-        for linea in f:
-            propuesta = linea.strip().split(", ")
-            propuestas.append((orden_barrios_norte[propuesta[BARRIO_NORTE]], orden_barrios_sur[propuesta[BARRIO_SUR]]))
-    
-    return propuestas
+from utils import *
 
 def evaluar_factibilidad(puentes_propuestos):
-    return _evaluar_factibilidad(puentes_propuestos, 0, len(puentes_propuestos) - 1)
+    return _evaluar_factibilidad(puentes_propuestos, 0, len(puentes_propuestos) - 1)[1]
 
 def _evaluar_factibilidad(puentes_propuestos, ini, fin):
-    if ini <= fin:
-        return [puentes_propuestos[ini]]
+    if fin <= ini:
+        return [puentes_propuestos[ini]], 0
     
     m = (ini + fin) // 2
     
@@ -53,35 +22,28 @@ def merge_puentes(izq, der, cruzados):
     while i < len(izq) and j < len(der):
         prop_izq = izq[i]
         prop_der = der[j]
-        
-        if prop_izq[BARRIO_SUR] < prop_der[BARRIO_SUR] and prop_izq[BARRIO_NORTE] > prop_der[BARRIO_NORTE]:
-            res.append(prop_der)
-            j += 1
-            cruzados += 1
-            continue
-        
-        if prop_izq[BARRIO_SUR] > prop_der[BARRIO_SUR] and prop_izq[BARRIO_NORTE] < prop_der[BARRIO_NORTE]:
-            res.append(prop_izq)
+        if prop_izq[BARRIO_SUR] <= prop_der[BARRIO_SUR]:
+            res.append(izq[i])
             i += 1
-            cruzados += 1
-            continue
-        
-        res.append(prop_izq)
-        i += 1
+        else:
+            res.append(der[j])
+            cruzados += len(izq) - i
+            j += 1
     
     res.extend(izq[i:])
     res.extend(der[j:])
-    return res, cruzados
     
+    return res, cruzados
 
 def main(argv):
     archivo_barrios = argv[1]
-    orden_barrios_norte, orden_barrios_sur = obtener_orden_barrios(archivo_barrios)
-    
+    orden_barrios_norte, orden_barrios_sur, _, _ = obtener_orden_barrios(archivo_barrios)
+
     archivo_propuestas = argv[2]
     puentes_propuestos = obtener_propuestas(archivo_propuestas, orden_barrios_norte, orden_barrios_sur)
-    print(puentes_propuestos)
-    evaluar_factibilidad(puentes_propuestos)
+
+    cant_props_cruzadas = evaluar_factibilidad(puentes_propuestos)
+    print(cant_props_cruzadas)
     return
 
 

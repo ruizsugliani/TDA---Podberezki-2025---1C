@@ -147,3 +147,6 @@ class Grafo:
             raise Exception("El grafo contiene ciclos, no se puede obtener un orden topológico.")
         
         return orden
+
+    def ford_fulkerson(self):
+        pass
