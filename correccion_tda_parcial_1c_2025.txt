@@ -1,0 +1,52 @@
+Nota del parcial: 5,7
+
+Notas Ejercicios
+
+1: 1
+2: 1,8
+3: 1,1
+4: 1,8
+5: 0
+
+
+Comentarios de las correcciones:
+
+Ej 1:
+La propuesta para resolver el problema es correcta.
+
+El psudocodigo es distinto a la propuesta, ademas no es óptima, bajo el siguiente contra ejemplo:
+Si tengo los proyectos A y B, en tu propuesta se ordena por K_ini ascendente. Si el K_ini de A es menor a el K_ini de B queda ordenado como [A, B]. Ahora si el K_ini tanto de B como de A es menor a 0, bajo tu propuesta se agregaría si o si A, pero si el k_fin de A no abarca todo el sendero y el k_fin de B abarca todo el sendero, B también se agrega a la solución. La respuesta de tu algoritmo es [A, B] y la óptima es solo [B].
+
+La complejidad temporal y espacial es correcta.
+
+Ej 2:
+La explicación de la propuesta y el subproblema están bien.
+
+La ecuación de recurrencia está bien, pero le falto decir los casos base que son OPT[0][j] = 0 y OPT[i][0] = 0.
+
+El pseudocodigo es correcto tanto para la memorización, como para reconstruir los perfumes.
+El análisis de las complejidades está bien (espacial y temporal).
+
+
+Ej 3:
+La transformación del problema a un de red de flujos no contempla que es un problema con capacidad en los nodos (nos interesan los satélites, no cuantos canales de comunicación se pueden romper).
+
+No tiene en cuenta que los ejes son bidireccionales.
+
+El psudocodigo de Ford Fulkerson es correcto.
+
+El psudocodigo de Camino mínimo es correcto.
+
+Las complejidades deben estar con los datos del problema no con aristas y vértices
+
+
+Ej 4:
+La explicación de lo que de lo que se debe hacer es correcta.
+
+El certificador falla en la parte de contar las amistades, porque volves a sumar amistades repetidas.
+
+La demostración de porque el problema de los artistas es NP-H es correcta.
+
+
+Ej 5:
+No resuelve

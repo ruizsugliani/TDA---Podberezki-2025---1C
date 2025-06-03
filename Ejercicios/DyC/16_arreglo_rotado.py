@@ -27,15 +27,22 @@ def _cant_rotaciones(V, ini, fin):
     if V[m] < V[ini]:
         return _cant_rotaciones(V, ini, m)
     return _cant_rotaciones(V, m, fin)
-    
 
-#print(cant_rotaciones([6,7,9,10,11,15,1]))
-#print(cant_rotaciones([6,1,2,3,4,5]))
-#print(cant_rotaciones([6,7,1,2,3,4,5]))
-#print(cant_rotaciones([6,7,9,10,4,5]))
+def rotaciones(V):
+    ix_res = _obtener_menor_ix(V, 0, len(V)-1)
+    return ix_res
 
-print(cant_rotaciones([9,2,4,5,6,7]))
-print(cant_rotaciones([7,9,2,4,5,6]))
-print(cant_rotaciones([6,7,9,2,4,5]))
-print(cant_rotaciones([5,6,7,9,2,4]))
-print(cant_rotaciones([4,5,6,7,9,2]))
+def _obtener_menor_ix(V, ini, fin):
+    if fin - ini == 1:
+        return ini if V[ini] < V[fin] else fin
+    m = (ini + fin) // 2
+    if V[m] > V[fin]:
+        return _obtener_menor_ix(V, m, fin)
+    return _obtener_menor_ix(V, ini, m)
+
+print(rotaciones([9,2,4,5,6,7]))
+print(rotaciones([7,9,2,4,5,6]))
+print(rotaciones([6,7,9,2,4,5]))
+print(rotaciones([5,6,7,9,2,4]))
+print(rotaciones([4,5,6,7,9,2]))
+print(rotaciones([2,3,4,5,6,7]))

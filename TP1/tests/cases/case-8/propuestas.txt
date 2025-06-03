@@ -1,5 +1,0 @@
-A, W
-B, Z
-C, Y
-D, X
-E, Q
